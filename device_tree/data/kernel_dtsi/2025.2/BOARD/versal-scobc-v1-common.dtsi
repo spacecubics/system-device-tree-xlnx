@@ -1,0 +1,55 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Space Cubics SC-OBC Module V1
+ * Copyright (C) 2026 Space Cubics Inc.
+ */
+
+&sdhci0 {
+	bus-width = <4>;
+	disable-wp;
+};
+
+&sdhci1 {
+	bus-width = <8>;
+	non-removable;
+};
+
+&gem1 {
+	status = "okay";
+	iommus = <&smmu 0x235>;
+	phy-handle = <&phy>;
+	phy-mode = "rgmii-id";
+
+	mdio: mdio {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		phy: ethernet-phy@1 {
+			compatible = "ethernet-phy-id2000.a231";
+			reg = <1>;
+			ti,rx-internal-delay = <0x6>; /* 1.75 ns */
+			ti,tx-internal-delay = <0x6>; /* 1.75 ns */
+		};
+	};
+};
+
+&usb0 {
+	status = "okay";
+};
+
+&dwc3_0 {
+	status = "okay";
+	dr_mode = "host";
+	maximum-speed = "high-speed";
+	snps,dis_u2_susphy_quirk;
+	snps,dis_u3_susphy_quirk;
+	snps,usb3_lpm_capable;
+};
+
+/ {
+	gpio-restart {
+		compatible = "gpio-restart";
+		gpios = <&gpio1 28 0>;
+		active-delay = <2000>; /* Assert reset pin for 2000 ms */
+		priority = <130>; /* 1 Higher than PSCI reset(129) */
+	};
+};

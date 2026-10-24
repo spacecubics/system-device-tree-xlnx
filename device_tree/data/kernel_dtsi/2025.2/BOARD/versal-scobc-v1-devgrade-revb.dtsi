@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Space Cubics SC-OBC Module V1
+ * Copyright (C) 2026 Space Cubics Inc.
+ */
+
+#include "versal-scobc-v1-revb.dtsi"
+
+/ {
+	model = "Space Cubics SC-OBC Module V1 Developer Grade Rev.B";
+	compatible = "sc,scobc-v1-devgrade-revb", "sc,scobc-v1", "xlnx,versal";
+};
+
+/* Developer Grade uses an Everspin MRAM on CS1. */
+&hirel_memory {
+	compatible = "everspin,em064lxq", "jedec,spi-nor";
+	spi-tx-bus-width = <4>;
+};
